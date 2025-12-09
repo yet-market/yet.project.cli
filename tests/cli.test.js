@@ -334,4 +334,76 @@ describe('CLI', () => {
       expect(category.alias()).toBe('cat');
     });
   });
+
+  describe('Init Commands', () => {
+    it('has init command', () => {
+      const cmd = program.commands.find(c => c.name() === 'init');
+      expect(cmd).toBeDefined();
+    });
+
+    it('has uninstall command', () => {
+      const cmd = program.commands.find(c => c.name() === 'uninstall');
+      expect(cmd).toBeDefined();
+    });
+
+    it('init has no-hooks option', () => {
+      const cmd = program.commands.find(c => c.name() === 'init');
+      const option = cmd.options.find(o => o.long === '--no-hooks');
+      expect(option).toBeDefined();
+    });
+
+    it('init has force option', () => {
+      const cmd = program.commands.find(c => c.name() === 'init');
+      const option = cmd.options.find(o => o.long === '--force');
+      expect(option).toBeDefined();
+    });
+  });
+
+  describe('AI Workflow Commands', () => {
+    it('has progress command with prog alias', () => {
+      const cmd = program.commands.find(c => c.name() === 'progress');
+      expect(cmd).toBeDefined();
+      expect(cmd.alias()).toBe('prog');
+    });
+
+    it('has log command for time logging', () => {
+      const cmd = program.commands.find(c => c.name() === 'log');
+      expect(cmd).toBeDefined();
+    });
+
+    it('has comment command with note alias', () => {
+      const cmd = program.commands.find(c => c.name() === 'comment');
+      expect(cmd).toBeDefined();
+      expect(cmd.alias()).toBe('note');
+    });
+
+    it('has learn command for knowledge base', () => {
+      const cmd = program.commands.find(c => c.name() === 'learn');
+      expect(cmd).toBeDefined();
+    });
+
+    it('progress command has task option', () => {
+      const cmd = program.commands.find(c => c.name() === 'progress');
+      const taskOption = cmd.options.find(o => o.long === '--task');
+      expect(taskOption).toBeDefined();
+    });
+
+    it('log command has notes option', () => {
+      const cmd = program.commands.find(c => c.name() === 'log');
+      const notesOption = cmd.options.find(o => o.long === '--notes');
+      expect(notesOption).toBeDefined();
+    });
+
+    it('learn command has category option', () => {
+      const cmd = program.commands.find(c => c.name() === 'learn');
+      const catOption = cmd.options.find(o => o.long === '--category');
+      expect(catOption).toBeDefined();
+    });
+
+    it('learn command has tags option', () => {
+      const cmd = program.commands.find(c => c.name() === 'learn');
+      const tagsOption = cmd.options.find(o => o.long === '--tags');
+      expect(tagsOption).toBeDefined();
+    });
+  });
 });

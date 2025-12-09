@@ -18,6 +18,7 @@ import { registerContextCommands } from './commands/context.js';
 import { registerConfigCommands } from './commands/config.js';
 import { registerGitCommands } from './commands/git.js';
 import { registerShortcutCommands } from './commands/shortcuts.js';
+import { registerInitCommands } from './commands/init.js';
 
 // Import utils
 import output from './lib/output.js';
@@ -51,6 +52,7 @@ function createProgram() {
   registerContextCommands(program);
   registerGitCommands(program);
   registerShortcutCommands(program);
+  registerInitCommands(program);
 
   // Global error handler
   program.exitOverride();
