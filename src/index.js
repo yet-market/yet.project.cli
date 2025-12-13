@@ -1,5 +1,5 @@
 /**
- * Yet CLI - Main Entry Point
+ * Erold CLI - Main Entry Point
  *
  * AI-native project management from your terminal.
  */
@@ -38,8 +38,8 @@ function createProgram() {
   const program = new Command();
 
   program
-    .name('yet')
-    .description('Yet.Project CLI - AI-native project management')
+    .name('erold')
+    .description('Erold CLI - AI-native project management')
     .version(pkg.version, '-v, --version', 'Output the current version')
     .option('--json', 'Output in JSON format')
     .option('--no-color', 'Disable colored output')
@@ -90,7 +90,7 @@ export async function run(argv) {
 
     // Handle other errors
     if (err.code === 'commander.unknownCommand') {
-      output.error(`Unknown command. Run 'yet --help' for available commands.`);
+      output.error(`Unknown command. Run 'erold --help' for available commands.`);
       process.exit(1);
     }
 

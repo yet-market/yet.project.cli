@@ -18,8 +18,8 @@ export function registerAuthCommands(program) {
   // Login command
   program
     .command('login')
-    .description('Authenticate with Yet.Project')
-    .option('-k, --key <apiKey>', 'API key (or set YET_API_KEY env var)')
+    .description('Authenticate with Erold')
+    .option('-k, --key <apiKey>', 'API key (or set EROLD_API_KEY env var)')
     .option('-t, --tenant <tenant>', 'Tenant ID or slug')
     .action(async (options) => {
       await loginCommand(options);
@@ -69,7 +69,7 @@ async function loginCommand(options) {
         mask: '*',
         validate: (input) => {
           if (!input) return 'API key is required';
-          if (!input.startsWith('yet_')) return 'Invalid API key format (should start with yet_)';
+          if (!input.startsWith('erold_')) return 'Invalid API key format (should start with erold_)';
           return true;
         },
       },
@@ -78,8 +78,8 @@ async function loginCommand(options) {
   }
 
   // Validate API key format
-  if (!key.startsWith('yet_')) {
-    output.error('Invalid API key format. Keys should start with "yet_"');
+  if (!key.startsWith('erold_')) {
+    output.error('Invalid API key format. Keys should start with "erold_"');
     process.exit(1);
   }
 
@@ -159,7 +159,7 @@ async function logoutCommand() {
  */
 async function whoamiCommand() {
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 
@@ -193,7 +193,7 @@ async function whoamiCommand() {
  */
 async function switchCommand(tenant) {
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 

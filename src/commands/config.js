@@ -155,8 +155,8 @@ async function setConfig(key, value) {
     }
   }
 
-  if (key === 'apiKey' && value && !value.startsWith('yet_')) {
-    output.warning('API keys typically start with "yet_"');
+  if (key === 'apiKey' && value && !value.startsWith('erold_')) {
+    output.warning('API keys typically start with "erold_"');
   }
 
   config.set(key, value);
@@ -191,7 +191,7 @@ async function resetConfig(options) {
   config.set('outputFormat', 'table');
 
   output.success('Configuration reset to defaults');
-  output.muted('Run `yet login` to authenticate again');
+  output.muted('Run `erold login` to authenticate again');
 }
 
 /**
@@ -210,7 +210,7 @@ async function editConfig() {
   const editableConfig = {
     ...currentConfig,
     _note: 'Edit values below. API key changes require re-login.',
-    apiUrl: currentConfig.apiUrl || 'https://api.yet.project',
+    apiUrl: currentConfig.apiUrl || 'https://api.erold.dev',
     tenant: currentConfig.tenant || '',
     outputFormat: currentConfig.outputFormat || 'table',
   };

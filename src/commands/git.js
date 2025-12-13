@@ -407,7 +407,7 @@ async function showChanges() {
   }
 
   if (changes.staged > 0) {
-    output.muted('Tip: Use `yet git commit -m "message"` to commit with task reference');
+    output.muted('Tip: Use `erold git commit -m "message"` to commit with task reference');
   }
 }
 

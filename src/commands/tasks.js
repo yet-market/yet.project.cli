@@ -387,7 +387,7 @@ async function startTask(taskId, options) {
     taskId = git.getTaskIdFromBranch();
     if (!taskId) {
       output.error('No task ID provided and could not detect from branch name.');
-      output.muted('Usage: yet start <taskId> or create a branch like feature/task-123-description');
+      output.muted('Usage: erold start <taskId> or create a branch like feature/task-123-description');
       process.exit(1);
     }
     output.info(`Detected task ID from branch: ${taskId}`);

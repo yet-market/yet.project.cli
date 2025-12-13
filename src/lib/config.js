@@ -1,7 +1,7 @@
 /**
  * Configuration Management
  *
- * Handles CLI configuration stored in ~/.yet/config.json
+ * Handles CLI configuration stored in ~/.erold/config.json
  * Uses the 'conf' package for cross-platform config storage.
  */
 
@@ -11,7 +11,7 @@ import { join } from 'path';
 import { existsSync, mkdirSync } from 'fs';
 
 // Ensure config directory exists
-const configDir = join(homedir(), '.yet');
+const configDir = join(homedir(), '.erold');
 if (!existsSync(configDir)) {
   mkdirSync(configDir, { recursive: true });
 }
@@ -24,7 +24,7 @@ const schema = {
   },
   apiUrl: {
     type: 'string',
-    default: process.env.YET_API_URL || 'http://localhost:3000/api/v1',
+    default: process.env.EROLD_API_URL || 'https://api.erold.dev/api/v1',
   },
   tenant: {
     type: 'string',
@@ -47,7 +47,7 @@ const schema = {
 
 // Initialize config store
 const config = new Conf({
-  projectName: 'yet',
+  projectName: 'erold',
   projectSuffix: '',
   cwd: configDir,
   schema,
@@ -60,7 +60,7 @@ const config = new Conf({
  */
 export function get(key) {
   // Check environment variables first (for CI/CD)
-  const envKey = `YET_${key.toUpperCase()}`;
+  const envKey = `EROLD_${key.toUpperCase()}`;
   if (process.env[envKey]) {
     return process.env[envKey];
   }
@@ -111,7 +111,7 @@ export function clear() {
  */
 export function isConfigured() {
   const apiKey = get('apiKey');
-  return apiKey && apiKey.startsWith('yet_');
+  return apiKey && apiKey.startsWith('erold_');
 }
 
 /**

@@ -110,7 +110,7 @@ export function registerShortcutCommands(program) {
  */
 async function statusCommand(options) {
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 
@@ -131,7 +131,7 @@ async function statusCommand(options) {
       return;
     }
 
-    console.log('\n' + output.colors.bold('=== Yet Status ===\n'));
+    console.log('\n' + output.colors.bold('=== Erold Status ===\n'));
 
     // Git context (if in repo)
     if (git.isGitRepo()) {
@@ -192,9 +192,9 @@ async function statusCommand(options) {
 
     // Quick tips
     output.muted('Quick actions:');
-    output.muted('  yet tasks --mine     List all my tasks');
-    output.muted('  yet todo "Title"     Create a quick task');
-    output.muted('  yet done <id>        Complete a task');
+    output.muted('  erold tasks --mine     List all my tasks');
+    output.muted('  erold todo "Title"     Create a quick task');
+    output.muted('  erold done <id>        Complete a task');
 
   } catch (err) {
     output.stopSpinner(false);
@@ -208,7 +208,7 @@ async function statusCommand(options) {
  */
 async function quickTodo(title, options) {
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 
@@ -278,7 +278,7 @@ async function quickTodo(title, options) {
     console.log(`   Priority: ${output.priorityBadge(task.priority)}`);
     console.log('');
 
-    output.muted(`Start working: yet start ${task.id}`);
+    output.muted(`Start working: erold start ${task.id}`);
 
   } catch (err) {
     output.stopSpinner(false);
@@ -308,7 +308,7 @@ async function showCurrentTask(options = {}) {
   }
 
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 
@@ -319,8 +319,8 @@ async function showCurrentTask(options = {}) {
     output.warning('No task ID detected from branch name.');
     output.muted('\nTo link a task, name your branch like:');
     output.muted('  feature/task-<taskId>-description');
-    output.muted('  fix/YET-123-bug-description');
-    output.muted('\nOr create a branch: yet git branch <taskId>');
+    output.muted('  fix/EROLD-123-bug-description');
+    output.muted('\nOr create a branch: erold git branch <taskId>');
     return;
   }
 
@@ -336,12 +336,12 @@ async function showCurrentTask(options = {}) {
     // Show suggestions based on status
     console.log('');
     if (task.status === 'todo') {
-      output.muted(`Start working: yet start ${task.id}`);
+      output.muted(`Start working: erold start ${task.id}`);
     } else if (task.status === 'in_progress') {
-      output.muted(`Complete task: yet done ${task.id}`);
-      output.muted(`Log progress:  yet tasks progress ${task.id} 50`);
+      output.muted(`Complete task: erold done ${task.id}`);
+      output.muted(`Log progress:  erold tasks progress ${task.id} 50`);
     } else if (task.status === 'blocked') {
-      output.muted(`Unblock task: yet tasks update ${task.id} --status in_progress`);
+      output.muted(`Unblock task: erold tasks update ${task.id} --status in_progress`);
     }
 
   } catch (err) {
@@ -362,7 +362,7 @@ async function showCurrentTask(options = {}) {
  */
 async function listMembers() {
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 
@@ -401,7 +401,7 @@ async function listMembers() {
  */
 async function inviteMember(email, options) {
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 
@@ -458,7 +458,7 @@ async function inviteMember(email, options) {
  */
 async function updateProgress(percent, message, options) {
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 
@@ -497,7 +497,7 @@ async function updateProgress(percent, message, options) {
 
     // Suggest next action
     if (percentNum === 100) {
-      output.muted(`Complete task: yet done`);
+      output.muted(`Complete task: erold done`);
     }
   } catch (err) {
     output.stopSpinner(false);
@@ -512,7 +512,7 @@ async function updateProgress(percent, message, options) {
  */
 async function quickLogTime(time, options) {
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 
@@ -588,7 +588,7 @@ function parseTimeString(time) {
  */
 async function quickComment(message, options) {
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 
@@ -631,7 +631,7 @@ async function quickComment(message, options) {
  */
 async function addKnowledge(insight, options) {
   if (!config.isConfigured()) {
-    output.error('Not logged in. Run `yet login` first.');
+    output.error('Not logged in. Run `erold login` first.');
     process.exit(1);
   }
 
@@ -677,7 +677,7 @@ async function addKnowledge(insight, options) {
     console.log(`   ID: ${output.colors.muted(entry.id)}`);
     console.log('');
 
-    output.muted(`View: yet kb show ${entry.id}`);
+    output.muted(`View: erold kb show ${entry.id}`);
   } catch (err) {
     output.stopSpinner(false);
     output.error(err.message);

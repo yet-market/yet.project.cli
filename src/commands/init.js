@@ -1,7 +1,7 @@
 /**
  * Init Command
  *
- * Initialize Yet.Project in a git repository.
+ * Initialize Erold in a git repository.
  * Installs git hooks for automatic task updates.
  *
  * AI-agnostic: Works with any AI tool or human developers.
@@ -18,11 +18,11 @@ import git from '../lib/git.js';
  */
 const HOOKS = {
   'post-commit': `#!/bin/sh
-# Yet.Project: Update task progress after commit
-# Installed by: yet init
+# Erold: Update task progress after commit
+# Installed by: erold init
 
-# Check if yet CLI is available
-if ! command -v yet &> /dev/null; then
+# Check if erold CLI is available
+if ! command -v erold &> /dev/null; then
   exit 0
 fi
 
@@ -30,30 +30,30 @@ fi
 COMMIT_MSG=$(git log -1 --pretty=%B)
 
 # Update task (will auto-detect from branch name)
-yet progress 100 "$COMMIT_MSG" 2>/dev/null || true
+erold progress 100 "$COMMIT_MSG" 2>/dev/null || true
 `,
 
   'post-checkout': `#!/bin/sh
-# Yet.Project: Show current task when switching branches
-# Installed by: yet init
+# Erold: Show current task when switching branches
+# Installed by: erold init
 
-# Check if yet CLI is available
-if ! command -v yet &> /dev/null; then
+# Check if erold CLI is available
+if ! command -v erold &> /dev/null; then
   exit 0
 fi
 
 # Only run on branch checkout (not file checkout)
 if [ "$3" = "1" ]; then
-  yet current 2>/dev/null || true
+  erold current 2>/dev/null || true
 fi
 `,
 
   'pre-push': `#!/bin/sh
-# Yet.Project: Mark task complete before push
-# Installed by: yet init
+# Erold: Mark task complete before push
+# Installed by: erold init
 
-# Check if yet CLI is available
-if ! command -v yet &> /dev/null; then
+# Check if erold CLI is available
+if ! command -v erold &> /dev/null; then
   exit 0
 fi
 
@@ -63,14 +63,14 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD)
 # Only for feature/fix branches
 case "$BRANCH" in
   feature/*|fix/*|bugfix/*|task/*)
-    yet done "Pushed to remote" 2>/dev/null || true
+    erold done "Pushed to remote" 2>/dev/null || true
     ;;
 esac
 `,
 
   'prepare-commit-msg': `#!/bin/sh
-# Yet.Project: Add task ID to commit message
-# Installed by: yet init
+# Erold: Add task ID to commit message
+# Installed by: erold init
 
 COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
@@ -80,13 +80,13 @@ if [ -n "$COMMIT_SOURCE" ]; then
   exit 0
 fi
 
-# Check if yet CLI is available
-if ! command -v yet &> /dev/null; then
+# Check if erold CLI is available
+if ! command -v erold &> /dev/null; then
   exit 0
 fi
 
 # Get task ID from branch
-TASK_ID=$(yet current --id-only 2>/dev/null || true)
+TASK_ID=$(erold current --id-only 2>/dev/null || true)
 
 if [ -n "$TASK_ID" ]; then
   # Check if task ID already in message
@@ -105,7 +105,7 @@ fi
 export function registerInitCommands(program) {
   program
     .command('init')
-    .description('Initialize Yet.Project in current git repository')
+    .description('Initialize Erold in current git repository')
     .option('--no-hooks', 'Skip git hooks installation')
     .option('-f, --force', 'Overwrite existing hooks')
     .action(async (options) => {
@@ -114,14 +114,14 @@ export function registerInitCommands(program) {
 
   program
     .command('uninstall')
-    .description('Remove Yet.Project git hooks from repository')
+    .description('Remove Erold git hooks from repository')
     .action(async () => {
       await uninstallHooks();
     });
 }
 
 /**
- * Initialize Yet.Project in repository
+ * Initialize Erold in repository
  */
 async function initProject(options) {
   // Check if in a git repo
@@ -132,14 +132,14 @@ async function initProject(options) {
 
   // Check if logged in
   if (!config.isConfigured()) {
-    output.warning('Not logged in. Run `yet login` to enable full functionality.');
+    output.warning('Not logged in. Run `erold login` to enable full functionality.');
   }
 
   const gitDir = git.getGitDir();
   const hooksDir = join(gitDir, 'hooks');
 
   console.log('');
-  output.info('Initializing Yet.Project...');
+  output.info('Initializing Erold...');
   console.log('');
 
   // Create hooks directory if needed
@@ -160,7 +160,7 @@ async function initProject(options) {
         const existing = readFileSync(hookPath, 'utf-8');
 
         // Check if it's our hook
-        if (existing.includes('Yet.Project')) {
+        if (existing.includes('Erold')) {
           output.muted(`  ${output.icons.success} ${hookName} (already installed)`);
           installedCount++;
           continue;
@@ -190,35 +190,35 @@ async function initProject(options) {
     }
   }
 
-  // Create .yet config file (optional)
-  const yetConfigPath = join(process.cwd(), '.yet.json');
-  if (!existsSync(yetConfigPath)) {
+  // Create .erold config file (optional)
+  const eroldConfigPath = join(process.cwd(), '.erold.json');
+  if (!existsSync(eroldConfigPath)) {
     const tenant = config.get('tenant');
     const defaultProject = config.get('defaultProject');
 
     if (tenant) {
-      writeFileSync(yetConfigPath, JSON.stringify({
+      writeFileSync(eroldConfigPath, JSON.stringify({
         tenant,
         defaultProject: defaultProject || null,
       }, null, 2));
 
-      output.success(`Created .yet.json config`);
+      output.success(`Created .erold.json config`);
       output.muted('  Add this to .gitignore if you want per-user config');
     }
   }
 
   console.log('');
-  output.success('Yet.Project initialized!');
+  output.success('Erold initialized!');
   console.log('');
 
   // Show next steps
   console.log(output.colors.bold('Next steps:'));
   console.log('');
   console.log('  1. Create a task:');
-  console.log('     yet todo "Implement feature X"');
+  console.log('     erold todo "Implement feature X"');
   console.log('');
   console.log('  2. Start working (creates branch):');
-  console.log('     yet start <taskId> --branch');
+  console.log('     erold start <taskId> --branch');
   console.log('');
   console.log('  3. Commit as usual - task updates automatically');
   console.log('     git commit -m "Add feature"');
@@ -228,12 +228,12 @@ async function initProject(options) {
   console.log('');
 
   if (!config.isConfigured()) {
-    output.muted('Run `yet login` to connect to your Yet.Project account.');
+    output.muted('Run `erold login` to connect to your Erold account.');
   }
 }
 
 /**
- * Uninstall Yet.Project hooks
+ * Uninstall Erold hooks
  */
 async function uninstallHooks() {
   if (!git.isGitRepo()) {
@@ -252,7 +252,7 @@ async function uninstallHooks() {
     if (existsSync(hookPath)) {
       const content = readFileSync(hookPath, 'utf-8');
 
-      if (content.includes('Yet.Project')) {
+      if (content.includes('Erold')) {
         // Remove our hook
         const { unlinkSync } = await import('fs');
         unlinkSync(hookPath);
@@ -262,18 +262,18 @@ async function uninstallHooks() {
     }
   }
 
-  // Remove .yet.json if exists
-  const yetConfigPath = join(process.cwd(), '.yet.json');
-  if (existsSync(yetConfigPath)) {
+  // Remove .erold.json if exists
+  const eroldConfigPath = join(process.cwd(), '.erold.json');
+  if (existsSync(eroldConfigPath)) {
     const { unlinkSync } = await import('fs');
-    unlinkSync(yetConfigPath);
-    output.success('Removed .yet.json');
+    unlinkSync(eroldConfigPath);
+    output.success('Removed .erold.json');
   }
 
   if (removedCount > 0) {
-    output.success(`\nRemoved ${removedCount} Yet.Project hook(s)`);
+    output.success(`\nRemoved ${removedCount} Erold hook(s)`);
   } else {
-    output.info('No Yet.Project hooks found');
+    output.info('No Erold hooks found');
   }
 }
 

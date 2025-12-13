@@ -13,7 +13,7 @@ global.fetch = mockFetch;
 vi.mock('../src/lib/config.js', () => ({
   default: {
     getApiConfig: () => ({
-      apiKey: 'yet_test_key',
+      apiKey: 'erold_test_key',
       apiUrl: 'https://api.test.com',
       tenant: 'test-tenant',
     }),
@@ -64,7 +64,7 @@ describe('API Client', () => {
           method: 'GET',
           headers: expect.objectContaining({
             'Content-Type': 'application/json',
-            'X-API-Key': 'yet_test_key',
+            'X-API-Key': 'erold_test_key',
           }),
         })
       );

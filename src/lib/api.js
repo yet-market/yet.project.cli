@@ -1,7 +1,7 @@
 /**
  * API Client
  *
- * Handles all HTTP communication with the Yet.Project API.
+ * Handles all HTTP communication with the Erold API.
  * Features: error handling, retries, timeouts, rate limit handling.
  */
 
@@ -41,7 +41,7 @@ async function request(endpoint, options = {}) {
 
   if (!apiKey) {
     throw new ApiError(
-      'Not authenticated. Run `yet login` first.',
+      'Not authenticated. Run `erold login` first.',
       401
     );
   }
@@ -51,7 +51,7 @@ async function request(endpoint, options = {}) {
   const headers = {
     'Content-Type': 'application/json',
     'X-API-Key': apiKey,
-    'User-Agent': '@yet/cli/1.0.0',
+    'User-Agent': '@erold/cli/1.0.0',
     ...options.headers,
   };
 
@@ -191,7 +191,7 @@ function getTenantPath() {
   const tenant = config.get('tenant');
   if (!tenant) {
     throw new ApiError(
-      'No tenant configured. Run `yet config set tenant <tenant-id>` first.',
+      'No tenant configured. Run `erold config set tenant <tenant-id>` first.',
       400
     );
   }
